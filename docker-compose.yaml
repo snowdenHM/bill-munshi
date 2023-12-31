@@ -1,6 +1,16 @@
 version: '3.7'
 
 services:
+  # PostgreSQL database
+  postgres:
+    image: postgres:13  # Use an appropriate PostgreSQL version
+    container_name: postgres_container
+    environment:
+      POSTGRES_DB: billMunshi
+      POSTGRES_USER: bill
+      POSTGRES_PASSWORD: Bill@1234
+    ports:
+      - "5432:5432"  # Expose the PostgreSQL port
   # Django web application
   web:
     build:
@@ -12,17 +22,6 @@ services:
     depends_on:
       - postgres
       - redis
-
-  # PostgreSQL database
-  postgres:
-    image: postgres:13  # Use an appropriate PostgreSQL version
-    container_name: postgres_container
-    environment:
-      POSTGRES_DB: billMunshi
-      POSTGRES_USER: bill
-      POSTGRES_PASSWORD: Bill@1234
-    ports:
-      - "5432:5432"  # Expose the PostgreSQL port
 
   # Redis for Celery
   redis:
