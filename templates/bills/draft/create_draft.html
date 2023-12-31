@@ -1,0 +1,55 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Upload{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+		<!-- ============================================================== -->
+		<!-- Start right Content here -->
+		<!-- ============================================================== -->
+		<div class="main-content">
+
+				<div class="page-content">
+						<div class="container-fluid">
+								{% block pagetitle %}
+										{% include "partials/page-title.html" with pagetitle="Bills" title="Bills" subtitle="Upload" %}
+								{% endblock pagetitle %}
+
+
+								<div class="row justify-content-center">
+										<div class="col-md-7">
+												<div class="card">
+														<div class="card-body">
+																<form method="post" action="{% url 'bills:bills-create' %}"
+																      enctype="multipart/form-data">
+																		{% csrf_token %}
+																		<div class="row m-4">
+																				<div class="col">
+																						<label class="label">File Upload</label>
+																						{% render_field form.file class="form-control" %}
+																				</div>
+																		</div>
+																		<div class="row m-4">
+																				<button type="submit" class="btn btn-success ">Submit</button>
+																		</div>
+																</form>
+														</div>
+												</div>
+										</div>
+								</div>
+
+
+						</div>
+						<!-- container-fluid -->
+				</div>
+				<!-- End Page-content -->
+
+				{% block footer %}
+						{% include "partials/footer.html" %}
+				{% endblock footer %}
+		</div>
+		<!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}

@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+  # Django web application
+  web:
+    build:
+      context: .
+    container_name: django_container
+    command: gunicorn v1_bill.wsgi:application -b 0.0.0.0:8000
+    ports:
+      - "8000:8000"  # Expose the Gunicorn server on port 8000
+    depends_on:
+      - postgres
+      - redis
+
+  # PostgreSQL database
+  postgres:
+    image: postgres:13  # Use an appropriate PostgreSQL version
+    container_name: postgres_container
+    environment:
+      POSTGRES_DB: billMunshi
+      POSTGRES_USER: bill
+      POSTGRES_PASSWORD: Bill@1234
+    ports:
+      - "5432:5432"  # Expose the PostgreSQL port
+
+  # Redis for Celery
+  redis:
+    image: redis:latest
+    container_name: redis_container
+    ports:
+      - "6379:6379"  # Expose the Redis port
+
+  # Celery worker and beat
+  celery_worker_beat:
+    build:
+      context: .
+    container_name: celery_worker_beat_container
+    command: celery -A v1_bill worker --beat --scheduler django_celery_beat.schedulers.DatabaseScheduler -l info
+    depends_on:
+      - web
+      - redis
+    environment:
+      - DJANGO_SETTINGS_MODULE=v1_bill.settings
+
+networks:
+  default:
+    external:
+      name: v1_bill_network # Use an existing network or create one

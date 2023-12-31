@@ -1,0 +1,186 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Analysed{% endblock title %}
+{% block extra_css %}
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock extra_css %}
+{% block content %}
+		<!-- ============================================================== -->
+		<!-- Start right Content here -->
+		<!-- ============================================================== -->
+		<div class="main-content">
+
+				<div class="page-content">
+						<div class="container-fluid">
+								{% block pagetitle %}
+										{% include "partials/page-title.html" with pagetitle="Bills" title="Analysed Bills" subtitle="Analysed" %}
+								{% endblock pagetitle %}
+
+								<div class="row">
+										<div class="col-md-4">
+												<div class="card">
+														<div class="card-header">
+																<span class="text">File</span>
+														</div>
+														<div class="card-body">
+																{% if detailBill.file %}
+																		{% if ".pdf" in mymodel.file.url %}
+																				<embed src="{{ detailBill.file.url }}" type="application/pdf" width="300px"
+																				       height="400px">
+																		{% else %}
+																				<img src="{{ detailBill.file.url }}" alt="File" width="100%"
+																				     height="700px">
+																		{% endif %}
+																{% else %}
+																		<p>No file uploaded.</p>
+																{% endif %}
+														</div>
+												</div>
+										</div>
+										<div class="col-md-8">
+												<div class="card">
+														<div class="card-header">
+																<span class="text">Document ID: &nbsp;{{ detailBill.unique_id }}</span>
+														</div>
+														<div class="card-body">
+																<form method="post" action="">
+																		{% csrf_token %}
+																		<div class="row mb-3">
+																				<div class="col-md-4">
+																						<label for="{{ bill_form.vendor.id_for_label }}" class="form-label">Select
+																								Vendor</label>
+																						{% render_field bill_form.vendor class="form-select" %}
+																						{{ bill_form.vendor.errors }}
+																						<p class="text-muted" id="gst_field"> GST :</p>
+																				</div>
+																				<div class="col-md-4">
+																						<label for="{{ bill_form.bill_no.id_for_label }}" class="form-label">Bill
+																								No.</label>
+																						{% render_field bill_form.bill_no class="form-control" %}
+																						{{ bill_form.bill_no.errors }}
+																				</div>
+																				<div class="col-md-4">
+																						<label for="{{ bill_form.bill_date.id_for_label }}" class="form-label">Bill
+																								Date</label>
+																						{% render_field bill_form.bill_date class="form-control"%}
+																						{{ bill_form.bill_date.errors }}
+																				</div>
+																		</div>
+																		{{ formset.management_data }}
+																		<div class="row mt-4">
+																				<table class="table table-nowrap dt-responsive nowrap w-100">
+																						<thead>
+																						<tr>
+																								<th>S.No.</th>
+																								<th>Item</th>
+																								<th>Chart of Accounts</th>
+																								<th>Quantity</th>
+																								<th>Rate</th>
+																								<th>Taxes</th>
+																								<th>Amount</th>
+																						</tr>
+																						</thead>
+																						<tbody>
+																						<!-- formset non-form errors -->
+																						{% for error in formset.non_form_errors %}
+																								<span style="color: red">{{ error }}</span>
+																						{% endfor %}
+																						{% for form in formset %}
+																								<tr id="data-{{ forloop.counter0 }}">
+																										<td>{% render_field form.item_name class="form-control" %}</td>
+																										<td>
+																												{% render_field form.item_details class="form-control" %}
+																										</td>
+																										<td>{% render_field form.chart_of_accounts class="form-select" %}</td>
+																										<td>{% render_field form.quantity class="form-control" %}</td>
+																										<td>{% render_field form.rate class="form-control" %}</td>
+																										<td>{% render_field form.taxes class="form-select" %}</td>
+																										<td>{% render_field form.amount class="form-control" %}</td>
+																								</tr>
+																						{% endfor %}
+																						</tbody>
+																				</table>
+																		</div>
+																		<div class="row mt-4">
+																				<div class="col-md-8"></div>
+																				<div class="col-md-4">
+																						<label for="{{ bill_form.igst.id_for_label }}" class="form-label">IGST
+																								(INR)</label>
+																						{% render_field bill_form.igst class="form-control" %}
+																						{{ bill_form.igst.errors }}
+																				</div>
+																		</div>
+																		<div class="row mt-4">
+																				<div class="col-md-8"></div>
+																				<div class="col-md-4">
+																						<label for="{{ bill_form.total.id_for_label }}" class="form-label">Total
+																								(INR)</label>
+																						{% render_field bill_form.total class="form-control" %}
+																						{{ bill_form.total.errors }}
+																				</div>
+																		</div>
+																		<div class="row m-4">
+																				<label for="{{ bill_form.note.id_for_label }}"
+																				       class="form-label">Note</label>
+																				{% render_field bill_form.note class="form-control" %}
+																				{{ bill_form.note.errors }}
+																		</div>
+																		<div class="row m-4">
+																				<button type="submit" class="btn btn-success">Save</button>
+																		</div>
+																</form>
+														</div>
+												</div>
+										</div>
+								</div>
+
+						</div>
+						<!-- container-fluid -->
+				</div>
+				<!-- End Page-content -->
+
+				{% block footer %}
+						{% include "partials/footer.html" %}
+				{% endblock footer %}
+		</div>
+		<!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+		<script>
+        $(document).ready(function () {
+            // Get references to the vendor and GST elements
+            let $vendorSelect = $('#{{ bill_form.vendor.id_for_label }}');
+            let $gstField = $('#gst_field'); // Replace 'gst_field' with the actual ID or class of your GST field
+
+            // Define a function to update the GST field based on the selected vendor
+            function updateGST() {
+                let selectedVendorId = $vendorSelect.val();
+
+                // Make an AJAX request to fetch the GST information for the selected vendor
+                $.ajax({
+                    url: '{% url 'settings:fetchVendorGst' %}', // Replace with the actual URL to fetch GST information
+                    method: 'GET',
+                    data: {vendor_id: selectedVendorId},
+                    success: function (data) {
+                        let gstField = $('#gst_field');
+                        gstField.text('GST: ' + data.gst);
+                    },
+                    error: function () {
+                        // Handle errors if the request fails
+                        $gstField.text('N/A'); // Display 'N/A' or any default value
+                    }
+                });
+            }
+
+            // Attach an event listener to the vendor selection field
+            $vendorSelect.on('change', function () {
+                updateGST();
+            });
+
+            // Call the updateGST function initially to populate GST information
+            updateGST();
+        });
+		</script>
+
+{% endblock extra_js %}

@@ -1,0 +1,126 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% block title %}Dashboard{% endblock title %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block content %}
+		<!-- ============================================================== -->
+		<!-- Start right Content here -->
+		<!-- ============================================================== -->
+		<div class="main-content">
+
+				<div class="page-content">
+						<div class="container-fluid">
+								{% block pagetitle %}
+										{% include "partials/page-title.html" with pagetitle="Dashboard" title="Dashboard" subtitle="Dashboard" %}
+								{% endblock pagetitle %}
+
+								<div class="row">
+										<div class="col">
+												<div class="card">
+														<div class="card-header">
+																<span class="text text-muted">Total Chart Of Accounts</span>
+														</div>
+														<div class="card-body">
+																<div class="d-flex">
+																		<p class="fw-medium text-muted mb-0"></p>
+																		<h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+																				<span class="text">{{ coaCount }}</span>
+																		</h4>
+																</div>
+														</div>
+												</div>
+										</div>
+										<div class="col">
+												<div class="card">
+														<div class="card-header">
+																<span class="text text-muted">Total Taxes</span>
+														</div>
+														<div class="card-body">
+																<div class="d-flex">
+																		<p class="fw-medium text-muted mb-0"></p>
+																		<h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+																				<span class="text">{{ taxCount }}</span>
+																		</h4>
+																</div>
+														</div>
+												</div>
+										</div>
+										<div class="col">
+												<div class="card">
+														<div class="card-header">
+																<span class="text text-muted">Total Vendor</span>
+														</div>
+														<div class="card-body">
+																<div class="d-flex">
+																		<p class="fw-medium text-muted mb-0"></p>
+																		<h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+																				<span class="text">{{ vendorCount }}</span>
+																		</h4>
+																</div>
+														</div>
+												</div>
+										</div>
+								</div>
+								<div class="row">
+										<div class="col">
+												<div class="card">
+														<div class="card-header">
+																<span class="text text-muted">Draft Bills</span>
+														</div>
+														<div class="card-body">
+																<div class="d-flex">
+																		<p class="fw-medium text-muted mb-0"></p>
+																		<h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+																				<span class="text">{{ draftCount }}</span>
+																		</h4>
+																</div>
+														</div>
+												</div>
+										</div>
+										<div class="col">
+												<div class="card">
+														<div class="card-header">
+																<span class="text text-muted">Analysed Bills</span>
+														</div>
+														<div class="card-body">
+																<div class="d-flex">
+																		<p class="fw-medium text-muted mb-0"></p>
+																		<h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+																				<span class="text">{{ analysedCount }}</span>
+																		</h4>
+																</div>
+														</div>
+												</div>
+										</div>
+										<div class="col">
+												<div class="card">
+														<div class="card-header">
+																<span class="text text-muted">Synced Bills</span>
+														</div>
+														<div class="card-body">
+																<div class="d-flex">
+																		<p class="fw-medium text-muted mb-0"></p>
+																		<h4 class="mt-4 fs-22 ff-secondary fw-semibold">
+																				<span class="text">{{ syncedCount }}</span>
+																		</h4>
+																</div>
+														</div>
+												</div>
+										</div>
+								</div>
+
+
+						</div>
+						<!-- container-fluid -->
+				</div>
+				<!-- End Page-content -->
+
+				{% block footer %}
+						{% include "partials/footer.html" %}
+				{% endblock footer %}
+		</div>
+		<!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}

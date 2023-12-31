@@ -1,0 +1,66 @@
+{% extends 'account/base.html' %}
+{% load static %}
+{% load account %}
+{% load widget_tweaks %}
+{% block title %}Sign In{% endblock title %}
+
+{% block content %}
+    <div class="p-lg-5 p-4">
+        <div>
+            <h5 class="text-primary">Welcome Back !</h5>
+            <p class="text-muted">Sign in to continue to Bill Munshi.</p>
+        </div>
+
+        <div class="mt-4">
+            <div class="mt-4">
+                <form class="needs-validation" novalidate method="POST" action="{% url 'account_login' %}">
+                    {% for message in messages %}
+                        <div class="alert {{ message.tags }} mb-4  alert-dismissible fade show" role="alert">
+                            <strong>{{ message }} </strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                    {% if field.help_text %}
+                        <div class="alert alert-danger mb-4 alert-dismissible" role="alert">
+                            <strong>{{ field.help_text }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {% render_field form.login class="form-control" placeholder="Username" %}
+                    </div>
+
+                    <div class="mb-3 position-relative">
+                        <div class="float-end">
+                            <a href="{% url 'account_reset_password' %}" class="text-muted">Forgot password?</a>
+                        </div>
+                        {% render_field form.password class="form-control" placeholder="Password" %}
+                        <button class="btn btn-link position-absolute mt-4 end-0 top-0 text-decoration-none text-muted"
+                                type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                    </div>
+
+                    <div class="form-check">
+                        {{ form.remember }} <span class="text text-muted">Remember Password</span>
+                    </div>
+
+                    <div class="mt-4">
+                        <button class="btn btn-success w-100" type="submit">Sign In</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+{#        <div class="mt-5 text-center">#}
+{#            <p class="mb-0">Don't have an account ? <a href="{{ signup_url }}"#}
+{#                                                       class="fw-semibold text-primary text-decoration-underline">#}
+{#                Signup</a></p>#}
+{#        </div>#}
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+    <!-- password-addon init -->
+    <script src="{% static 'js/pages/password-addon.init.js' %}"></script>
+{% endblock extra_js %}
+    

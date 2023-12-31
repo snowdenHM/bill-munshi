@@ -1,0 +1,89 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% block title %}Vendors{% endblock title %}
+{% block extra_css %}
+		<!--datatable css-->
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"/>
+		<!--datatable responsive css-->
+		<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css"/>
+
+		<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+{% endblock extra_css %}
+{% block content %}
+		<!-- ============================================================== -->
+		<!-- Start right Content here -->
+		<!-- ============================================================== -->
+		<div class="main-content">
+
+				<div class="page-content">
+						<div class="container-fluid">
+								{% block pagetitle %}
+										{% include "partials/page-title.html" with pagetitle="Vendors" title="Vendors" subtitle="List" %}
+								{% endblock pagetitle %}
+								<div class="row">
+										<div class="col">
+												<div class="text-sm-end">
+														<a href="{% url 'settings:syncVendor' %}">
+																<button type="button"
+																        class="btn btn-outline-success btn-rounded waves-effect waves-light mb-2 me-2">
+																		<i class="mdi mdi-plus me-1"></i>Sync Vendor
+																</button>
+														</a>
+												</div>
+										</div>
+								</div>
+
+								<div class="row">
+										<div class="col-lg-12">
+												<div class="card">
+														<div class="card-body">
+																<table id="example"
+																       class="table table-bordered dt-responsive nowrap table-striped align-middle"
+																       style="width:100%">
+																		<thead>
+																		<tr>
+																				<th>ID</th>
+																				<th>Contact ID</th>
+																				<th>Company Name</th>
+																				<th>GST No.</th>
+																				<th>Created At</th>
+																		</tr>
+																		</thead>
+																		<tbody>
+																		{% for vendor in allVendor %}
+																				<tr>
+																						<td>{{ forloop.counter }}</td>
+																						<td>{{ vendor.contactId }}</td>
+																						<td>{{ vendor.companyName }}</td>
+																						<td>{{ vendor.gstNo }}</td>
+																						<td>{{ vendor.created_at }}</td>
+																				</tr>
+																		{% endfor %}
+
+																		</tbody>
+																</table>
+														</div>
+												</div>
+										</div>
+								</div>
+
+
+						</div>
+						<!-- container-fluid -->
+				</div>
+				<!-- End Page-content -->
+
+				{% block footer %}
+						{% include "partials/footer.html" %}
+				{% endblock footer %}
+		</div>
+		<!-- end main content-->
+{% endblock content %}
+{% block extra_js %}
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+		        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+		<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+		<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+		<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+{% endblock extra_js %}

@@ -1,0 +1,103 @@
+{% load static %}
+{% block sidebar %}
+		<!-- ========== App Menu ========== -->
+		<div class="app-menu navbar-menu">
+				<!-- LOGO -->
+				<div class="navbar-brand-box">
+						<!-- Dark Logo-->
+						<a href="#" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="{{ request.tenant.logo.url }}" alt="Logo" height="22">
+                    </span>
+								<span class="logo-lg">
+                        <img src="{{ request.tenant.logo.url }}" alt="Logo" height="22">
+                    </span>
+						</a>
+						<!-- Light Logo-->
+						<a href="#" class="logo logo-light">
+                    <span class="logo-sm">
+                         <img src="{{ request.tenant.logo.url }}" alt="Logo" height="22">
+                    </span>
+								<span class="logo-lg">
+                         <img src="{{ request.tenant.logo.url }}" alt="Logo" height="22">
+                    </span>
+						</a>
+						<button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
+						        id="vertical-hover">
+								<i class="ri-record-circle-line"></i>
+						</button>
+				</div>
+
+				<div id="scrollbar">
+						<div class="container-fluid">
+
+								<div id="two-column-menu">
+								</div>
+								<ul class="navbar-nav" id="navbar-nav">
+										<!-- ########## Dashboard  ########## -->
+										<li class="menu-title"><span data-key="t-main">Main</span></li>
+										<li class="nav-item">
+												<a class="nav-link menu-link" href="{% url 'home:dashboard' %}">
+														<i class="ri-dashboard-2-line"></i> <span data-key="t-widgets">Dashboard</span>
+												</a>
+										</li>
+										<li class="nav-item">
+												<a class="nav-link menu-link" href="#sidebarBills" data-bs-toggle="collapse" role="button"
+												   aria-expanded="false" aria-controls="sidebarBills">
+														<i class="ri-bill-line"></i> <span data-key="t-bills">Bills</span>
+												</a>
+												<div class="collapse menu-dropdown" id="sidebarBills">
+														<ul class="nav nav-sm flex-column">
+																<li class="nav-item">
+																		<a href="{% url 'bills:bills-draft' %}" class="nav-link"
+																		   data-key="t-draft">Draft</a>
+																</li>
+																<li class="nav-item">
+																		<a href="{% url 'bills:billsAnalysed' %}" class="nav-link" data-key="t-analysed">Analysed</a>
+																</li>
+																<li class="nav-item">
+																		<a href="{% url 'bills:billsSync' %}" class="nav-link" data-key="t-synced">Synced</a>
+																</li>
+														</ul>
+												</div>
+										</li>
+										<!-- ########## End Dashboard  ########## -->
+
+										<li class="menu-title"><span data-key="t-menu">Business Settings</span></li>
+										<li class="nav-item">
+												<a class="nav-link menu-link" href="#sidebarConfig" data-bs-toggle="collapse" role="button"
+												   aria-expanded="false" aria-controls="sidebarConfig">
+														<i class="ri-settings-2-fill"></i> <span data-key="t-config">Configuration</span>
+												</a>
+												<div class="collapse menu-dropdown" id="sidebarConfig">
+														<ul class="nav nav-sm flex-column">
+																<li class="nav-item">
+																		<a href="{% url 'settings:credentials' %}" class="nav-link"
+																		   data-key="t-credentials">Credentials</a>
+																</li>
+																<li class="nav-item">
+																		<a href="{% url 'settings:vendors' %}" class="nav-link"
+																		   data-key="t-Vendor">Vendor</a>
+																</li>
+																<li class="nav-item">
+																		<a href="{% url 'settings:chartOfAccount' %}" class="nav-link" data-key="t-coa">Chart
+																				of Accounts</a>
+																</li>
+																<li class="nav-item">
+																		<a href="{% url 'settings:taxes' %}" class="nav-link" data-key="t-tax">Taxes</a>
+																</li>
+														</ul>
+												</div>
+										</li>
+
+								</ul>
+						</div>
+						<!-- Sidebar -->
+				</div>
+				<div class="sidebar-background"></div>
+		</div>
+		<!-- Left Sidebar End -->
+		<!-- Vertical Overlay-->
+		<div class="vertical-overlay"></div>
+{% endblock sidebar %}
+    
